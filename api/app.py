@@ -11,11 +11,6 @@ MIGRATE = Migrate(app, db)
 CORS(app)
 
 
-@app.route('/', methods=['GET'])
-def hello():
-    users = Users.query.all()
-    return jsonify({'users': [user.serialize() for user in users]}), 200
-
 
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
