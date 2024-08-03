@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify 
 from flask_migrate import Migrate
 from __init__ import create_app
-from models.models import db, Users
+from models.models import db
 from flask_cors import CORS
 
 
