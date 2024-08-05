@@ -64,8 +64,8 @@ class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(Integer, primary_key=True)
     user_id = db.Column(Integer, ForeignKey("user.id"))
-    relation_comment = relationship("Comment", backref="post", lazy=True)
-    relation_media = relationship("Media", backref="post", lazy=True)
+    comment = relationship("Comment", backref="post", lazy=True)
+    media = relationship("Media", backref="post", lazy=True)
 
     def __repr__(self):
         return f'<Post {self.id}>'
@@ -74,9 +74,10 @@ class Post(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "relation_comment": self.relation_comment,
-            "relation_media": self.relation_media
+            "comment": [comment.serialize() for comment in self.comment],
+            "media": [media.serialize() for media in self.media]
         }
+
 
 class Media(db.Model):
     __tablename__ = "media"

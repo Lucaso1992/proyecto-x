@@ -15,7 +15,7 @@ def create_user():
     request_body = request.json
     user_query = User.query.filter_by(email=request_body['email']).first()
     if user_query is None:
-        create_user = User(username=request_body['name'], email=request_body['email'],  =request_body['password'], is_active=request_body['is_active'])
+        create_user = User(username=request_body['name'], email=request_body['email'],  password=request_body['password'], is_active=request_body['is_active'])
         db.session.add(create_user)
         db.session.commit()
         response_body = {
@@ -47,3 +47,38 @@ def login_user():
     else:
         access_token = create_access_token(identity=user_login.id)
         return jsonify({"token": access_token, "user_id": user_login.id})
+
+
+@api.route('/create_post', methods=['POST'])
+def create_post():
+    data = request.json
+    user_id = data.get('user_id')
+    comment_text = data.get('comment_text')
+    media_type = data.get('media_type')
+    media_url = data.get('media_url')
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    post = Post(user_id=user_id)
+    db.session.add(post)
+    db.session.flush() 
+    if comment_text:
+        comment = Comment(comment_text=comment_text, author_id=user_id, post_id=post.id)
+        db.session.add(comment)
+    if media_type and media_url:
+        media = Media(type=media_type, url=media_url, post_id=post.id)
+        db.session.add(media)
+    db.session.commit()
+
+    return jsonify({"message": "Post created successfully", "post_id": post.id})
+
+@api.route('/user_posts/<int:user_id>', methods=['GET'])
+def get_user_posts(user_id):
+    user_query = User.query.filter_by(id=user_id).first()
+    if user_query is None:
+        return jsonify({"error": "User not found"}), 404
+    posts = Post.query.filter_by(user_id=user_id).all()
+    if not posts:
+        return jsonify({"message": "No posts found for this user"}), 200
+    return jsonify({"posts": [post.serialize() for post in posts]}), 200
+
