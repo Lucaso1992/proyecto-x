@@ -82,3 +82,60 @@ def get_user_posts(user_id):
         return jsonify({"message": "No posts found for this user"}), 200
     return jsonify({"posts": [post.serialize() for post in posts]}), 200
 
+@api.route('/user_post/<int:user_id>', methods=['GET'])
+def get_one_post(user_id):
+    data = request.json
+    data_post = data.get('post_id')
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    post = Post.query.filter_by(id=data_post).first()
+    if post is None:
+        return jsonify({"error": "Post not found"}), 404
+    return ({"post": post.serialize()}), 200
+    
+@api.route('/follow/<int:user_id>', methods=['POST']) 
+def create_follow(user_id):
+    data = request.json
+    user_to_id = data.get('user_to_id')
+    
+    user_to = User.query.get(user_to_id)
+    if not user_to:
+        return jsonify({"error": "User to follow not found"}), 404
+    
+    existing_follow = Follow.query.filter_by(user_from_id=user_id, user_to_id=user_to_id).first()
+    if existing_follow:
+        return jsonify({"message": "Already following this user"}), 400
+    
+    new_follow = Follow(user_from_id=user_id, user_to_id=user_to_id)
+    db.session.add(new_follow)
+    db.session.commit()
+    
+    return jsonify({"message": "Successfully followed the user", "follow_id": new_follow.id}), 200
+
+@api.route('/followers/<int:user_id>', methods=['GET'])
+def get_followers(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    followers = Follow.query.filter_by(user_to_id=user_id).all()
+    follower_list = [{"id": follow.user_from_id, "username": follow.following_user.username, "email": follow.following_user.email} for follow in followers]
+
+    return jsonify({"followers": follower_list}), 200
+
+
+@api.route('/following/<int:user_id>', methods=['GET'])
+def get_following(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    following = Follow.query.filter_by(user_from_id=user_id).all()
+    following_list = [{"id": follow.user_to_id, 
+                       "username": follow.followed_user.username, 
+                       "email": follow.followed_user.email} for follow in following]
+
+    return jsonify({"following": following_list}), 200
+
+

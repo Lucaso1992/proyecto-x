@@ -72,7 +72,7 @@ class Post(db.Model):
 
     def serialize(self):
         return {
-            "id": self.id,
+            "id": self.id, 
             "user_id": self.user_id,
             "comment": [comment.serialize() for comment in self.comment],
             "media": [media.serialize() for media in self.media]
