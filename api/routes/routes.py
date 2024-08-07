@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from models.models import db, User, Follow, Comment, Post, Media
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
 
@@ -19,12 +18,12 @@ def create_user():
         db.session.add(create_user)
         db.session.commit()
         response_body = {
-            "msg": "Usuario creado con éxito"
+            "msg": "User created successfully"
         }
         return jsonify(response_body), 200
     else:
         response_body = {
-            "msg": "Usuario ya existe"
+            "msg": "User already exists"
         }
         return jsonify(response_body), 404
 
@@ -36,12 +35,12 @@ def login_user():
     user_login = User.query.filter_by(email=request_body['email']).first()
     if user_login is None:
         response_body = {
-            "msg": "Usuario no existe"
+            "msg": "User does not exist"
         }
         return jsonify(response_body), 404
     elif password != user_login.password:
         response_body = {
-            "msg": "Contraseña incorrecta"
+            "msg": "Incorrect password"
         }
         return jsonify(response_body), 404
     else:
@@ -78,7 +77,6 @@ def update_user(user_id):
 
     return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
 
-
 @api.route('/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user = User.query.get(user_id)
@@ -89,8 +87,6 @@ def delete_user(user_id):
     db.session.commit()
     
     return jsonify({"message": "User deleted successfully"}), 200
-
-
 
 @api.route('/create_post', methods=['POST'])
 def create_post():
@@ -135,8 +131,8 @@ def get_one_post(user_id):
     post = Post.query.filter_by(id=data_post).first()
     if post is None:
         return jsonify({"error": "Post not found"}), 404
-    return ({"post": post.serialize()}), 200
-    
+    return jsonify({"post": post.serialize()}), 200
+
 @api.route('/follow/<int:user_id>', methods=['POST']) 
 def create_follow(user_id):
     data = request.json
@@ -167,7 +163,6 @@ def get_followers(user_id):
 
     return jsonify({"followers": follower_list}), 200
 
-
 @api.route('/following/<int:user_id>', methods=['GET'])
 def get_following(user_id):
     user = User.query.get(user_id)
@@ -180,5 +175,3 @@ def get_following(user_id):
                        "email": follow.followed_user.email} for follow in following]
 
     return jsonify({"following": following_list}), 200
-
-
