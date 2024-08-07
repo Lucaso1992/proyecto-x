@@ -48,6 +48,49 @@ def login_user():
         access_token = create_access_token(identity=user_login.id)
         return jsonify({"token": access_token, "user_id": user_login.id})
 
+@api.route('/update_user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.json
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+
+    if username:
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user and existing_user.id != user_id:
+            return jsonify({"error": "Username already exists"}), 400
+        user.username = username
+
+    if email:
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email and existing_email.id != user_id:
+            return jsonify({"error": "Email already exists"}), 400
+        user.email = email
+
+    if password:
+        user.password = password 
+
+    db.session.commit()
+
+    return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
+
+
+@api.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    db.session.delete(user)
+    db.session.commit()
+    
+    return jsonify({"message": "User deleted successfully"}), 200
+
+
 
 @api.route('/create_post', methods=['POST'])
 def create_post():
