@@ -1,7 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react'
-import useAppContext from './store/AppContext'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import routes from './routes/routes';
+
+import useAppContext from './store/AppContext'
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   const { store, actions } = useAppContext()
@@ -9,7 +11,7 @@ function App() {
 
   return (
     <BrowserRouter basename='/'>
-    {/* <Navbar /> */}
+    <Navbar />
     <Routes>
       {routes.map((route) => <Route {...route} key={route.path} />)}
     </Routes>

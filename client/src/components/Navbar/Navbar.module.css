@@ -1,0 +1,8 @@
+.navbar{
+    /* backdrop-filter: blur(20px); */
+    background-color: rgba(245, 245, 245, 0.646);
+}
+
+.form_labels{
+    color: black;
+}
