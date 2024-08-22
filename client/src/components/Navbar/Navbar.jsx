@@ -1,6 +1,7 @@
 import styles from "./Navbar.module.css";
 import { useState } from "react";
 import useAppContext from "../../store/AppContext";
+import logo from "../../assets/logo.jpeg";
 
 const Navbar = () => {
     const { actions, store } = useAppContext();
@@ -27,20 +28,22 @@ const Navbar = () => {
         <>
             <nav className={`${styles.navbar} navbar navbar-expand-lg`}>
                 <div className="container-fluid">
-                    <a className="navbar-brand">Navbar</a>
+                    <div className={styles.img_container}>
+                        <img className={styles.img} src={logo} alt="ShowApp" />
+                    </div>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <a className="nav-link active" href="#" onClick={() => handleOpenModal('signup')} data-bs-toggle="modal" data-bs-target="#authModal">Sign Up</a>
+                                <p className={`${styles.nav_items} nav-link `}  onClick={() => handleOpenModal('signup')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Sign Up</strong></p>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#" onClick={() => handleOpenModal('login')} data-bs-toggle="modal" data-bs-target="#authModal">Log In</a>
+                                <p className={`${styles.nav_items} nav-link`} onClick={() => handleOpenModal('login')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Log In</strong></p>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Contact Us</a>
+                                <p className={`${styles.nav_items} nav-link`}><strong>Contact Us</strong></p>
                             </li>
                         </ul>
                     </div>

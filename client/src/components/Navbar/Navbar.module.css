@@ -1,8 +1,39 @@
 .navbar{
-    /* backdrop-filter: blur(20px); */
-    background-color: rgba(245, 245, 245, 0.646);
+    background-color: #f8f8f0;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0 0 3px #ccc;
+    padding: 0 1rem;
+    font-family: inherit;
+
 }
 
-.form_labels{
-    color: black;
+.nav_items{
+    color: #346286;
+    margin-bottom: 0;
+    padding: 1rem 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.4s ease;
+    font-family: inherit;
+}
+
+ul{
+    display: flex;
+    gap: 2rem;
+    font-family: inherit;
+}
+
+.nav_items:hover{
+    color: #5191c3;
+    transform: scale(1.05);
+}
+
+.img_container{
+    height: 70px;
+}
+
+.img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
