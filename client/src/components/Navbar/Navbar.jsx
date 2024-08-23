@@ -1,7 +1,7 @@
 import styles from "./Navbar.module.css";
 import { useState } from "react";
 import useAppContext from "../../store/AppContext";
-import logo from "../../assets/logo.jpeg";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
     const { actions, store } = useAppContext();
