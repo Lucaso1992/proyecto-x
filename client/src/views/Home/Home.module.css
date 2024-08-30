@@ -25,3 +25,21 @@ h2{
     font-style: normal;
     margin-top: .8rem;
 }
+
+@media (min-width: 360px) and (max-width: 600px) {
+    .title {
+        font-size: 4.5rem;
+    }
+    h2{
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 200px) and (max-width: 359px) {
+    .title {
+        font-size: 4rem;
+    }
+    h2{
+        font-size: 1.5rem;
+    }
+}
