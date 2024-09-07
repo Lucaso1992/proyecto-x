@@ -58,7 +58,9 @@ ul{
 }
 
 .modal_container{
-    box-shadow: 0px 2px 6px 0px rgba(255, 255, 255, 0.75);
+    box-shadow: 0px 3px 6px 0px rgba(255, 255, 255, 0.75);
+    background-color: #f8f8f0;
+    border: 2px solid #f8f8f0; 
 }
 
 .button{

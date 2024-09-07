@@ -27,6 +27,7 @@ def create_user():
         }
         return jsonify(response_body), 404
 
+
 @api.route('/login', methods=['POST'])
 def login_user():
     request_body = request.json
@@ -46,6 +47,8 @@ def login_user():
     else:
         access_token = create_access_token(identity=user_login.id)
         return jsonify({"token": access_token, "user_id": user_login.id}), 200
+
+
 
 @api.route('/update_user/<int:user_id>', methods=['PUT'])
 def update_user(user_id):

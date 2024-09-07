@@ -1,5 +1,6 @@
 import Home from "../views/Home/Home.jsx";
 import Profile from "../views/Profile/Profile.jsx";
+import RatingSystem from "../views/Rating.jsx";
 
 const routes = [
     {
@@ -9,6 +10,10 @@ const routes = [
     {
         path: '/profile',
         element: <Profile/>
+    },
+    {
+        path: '/rating',
+        element: <RatingSystem />
     }
    
 ]

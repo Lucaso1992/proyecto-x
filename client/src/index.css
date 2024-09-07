@@ -23,3 +23,9 @@ body{
     -moz-osx-font-smoothing: grayscale; 
 }
 
+
+.star {
+    font-size: 2rem;
+    transition: color 200ms;
+  }
+  

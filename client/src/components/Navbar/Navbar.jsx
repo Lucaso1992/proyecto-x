@@ -55,7 +55,7 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            <div className={`${styles.modal_father} modal fade`} id="authModal" tabIndex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+            <div className="modal fade" id="authModal" tabIndex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className={`${styles.modal_container} modal-content`}>
                         <div className="modal-header">
