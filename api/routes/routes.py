@@ -14,7 +14,7 @@ def create_user():
     request_body = request.json
     user_query = User.query.filter_by(email=request_body['email']).first()
     if user_query is None:
-        create_user = User(username=request_body['name'], email=request_body['email'],  password=request_body['password'], is_active=request_body['is_active'])
+        create_user = User(username=request_body['username'], email=request_body['email'],  password=request_body['password'], is_active=request_body['is_active'])
         db.session.add(create_user)
         db.session.commit()
         response_body = {
@@ -55,29 +55,26 @@ def update_user(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
-
     data = request.json
     username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
-
     if username:
         existing_user = User.query.filter_by(username=username).first()
         if existing_user and existing_user.id != user_id:
             return jsonify({"error": "Username already exists"}), 400
         user.username = username
-
+    email = data.get('email')
     if email:
         existing_email = User.query.filter_by(email=email).first()
         if existing_email and existing_email.id != user_id:
             return jsonify({"error": "Email already exists"}), 400
         user.email = email
-
+    about_me = data.get('about_me')
+    if about_me:
+        user.about_me = about_me
+    password = data.get('password')
     if password:
-        user.password = password 
-
+        user.password = password
     db.session.commit()
-
     return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
 
 @api.route('/delete_user/<int:user_id>', methods=['DELETE'])

@@ -3,11 +3,13 @@ import { useState } from "react";
 import useAppContext from "../../store/AppContext";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import SignUp from "../../services/signUp";
+import LogIn from "../../services/login";
 
 const Navbar = () => {
     const { actions, store } = useAppContext();
     const [modalType, setModalType] = useState('');
-    const [name, setName] = useState('');
+    const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -20,9 +22,9 @@ const Navbar = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (modalType === 'signup') {
-            actions.SignUp(name, email, password);
+            SignUp(username, email, password);
         } else if (modalType === 'login') {
-            actions.LogIn(email, password);
+            LogIn(email, password);
         }
     };
 
@@ -65,13 +67,13 @@ const Navbar = () => {
                         <div className="modal-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="email" className={`${styles.form_labels} form-label`}><strong>Email address</strong></label>
+                                    <label htmlFor="email" className={`${styles.form_labels} form-label`}><strong>Email</strong></label>
                                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="email" required />
                                 </div>
                                 {modalType === 'signup' && (
                                     <div className="mb-3">
                                         <label htmlFor="name" className={`${styles.form_labels} form-label`}><strong>Name</strong></label>
-                                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="name" required />
+                                        <input type="text" value={username} onChange={(e) => setUserName(e.target.value)} className="form-control" id="name" required />
                                     </div>
                                 )}
                                 <div className="mb-3">

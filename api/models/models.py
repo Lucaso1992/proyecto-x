@@ -9,6 +9,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    about_me = db.Column(db.String(300), unique=False, nullable=True)
     password = db.Column(db.String(500), nullable=False)
     is_active = db.Column(db.Boolean(), nullable=True)
     posts = relationship('Post', backref='user', lazy=True)
@@ -23,7 +24,8 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "username": self.username
+            "username": self.username,
+            "about_me": self.about_me
         }
 
 class Follow(db.Model):
