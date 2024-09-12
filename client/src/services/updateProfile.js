@@ -1,4 +1,4 @@
-const updateProfile = async (userId, username, email, aboutMe, password) => {
+const updateProfile = async (userId, username, email, aboutMe) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const url = `${backendUrl}/api/update_user/${userId}`; 
     const token = localStorage.getItem('token'); 
@@ -8,7 +8,6 @@ const updateProfile = async (userId, username, email, aboutMe, password) => {
         username: username,
         email: email,
         about_me: aboutMe,
-        password: password
     };
     console.log(requestBody)
     try {
@@ -37,3 +36,8 @@ const updateProfile = async (userId, username, email, aboutMe, password) => {
 };
 
 export default updateProfile;
+
+
+
+
+

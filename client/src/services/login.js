@@ -17,13 +17,13 @@ const LogIn = (email, password) => {
           throw new Error(response.statusText);
 
         }
-        window.location.reload();
-        alert('Logged in correctly!')
         return response.json();
       })
       .then(data => {
         localStorage.setItem('token', data.token)
         localStorage.setItem('user_id', data.user_id)
+        window.location.reload();
+        alert('Logged in correctly!')
       })
       .catch(error => {
         console.error(error);

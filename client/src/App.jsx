@@ -12,6 +12,7 @@ function App() {
   return (
     <BrowserRouter basename='/'>
     <Navbar />
+    
     <Routes>
       {routes.map((route) => <Route {...route} key={route.path} />)}
     </Routes>

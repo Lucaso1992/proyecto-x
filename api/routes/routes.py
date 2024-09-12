@@ -45,9 +45,17 @@ def login_user():
         }
         return jsonify(response_body), 404
     else:
-        access_token = create_access_token(identity=user_login.id)
-        return jsonify({"token": access_token, "user_id": user_login.id}), 200
+        return jsonify({ "user_id": user_login.id}), 200
 
+
+@api.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    
+    if user is None:
+        abort(404, description="User not found")
+
+    return jsonify(user.serialize())
 
 
 @api.route('/update_user/<int:user_id>', methods=['PUT'])
@@ -71,9 +79,6 @@ def update_user(user_id):
     about_me = data.get('about_me')
     if about_me:
         user.about_me = about_me
-    password = data.get('password')
-    if password:
-        user.password = password
     db.session.commit()
     return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
 

@@ -1,10 +1,11 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
 import useAppContext from "../../store/AppContext";
 import logo from "../../assets/logo.png";
-import { useNavigate } from "react-router-dom";
 import SignUp from "../../services/signUp";
 import LogIn from "../../services/login";
+import { FaUserLarge } from "react-icons/fa6";
 
 const Navbar = () => {
     const { actions, store } = useAppContext();
@@ -12,8 +13,14 @@ const Navbar = () => {
     const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
 
     const handleOpenModal = (type) => {
         setModalType(type);
@@ -28,6 +35,13 @@ const Navbar = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
+        setIsLoggedIn(false);
+        navigate("/");
+    };
+
     return (
         <>
             <nav className={`${styles.navbar} navbar navbar-expand-lg`}>
@@ -35,22 +49,34 @@ const Navbar = () => {
                     <div className={styles.img_container} onClick={() => navigate("/")}>
                         <img className={styles.img} src={logo} alt="ShowApp" />
                     </div>
+                    
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <p className={`${styles.nav_items} nav-link `}  onClick={() => handleOpenModal('signup')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Sign Up</strong></p>
-                            </li>
-                            <li className="nav-item">
-                                <p className={`${styles.nav_items} nav-link`} onClick={() => handleOpenModal('login')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Log In</strong></p>
-                            </li>
+                            {isLoggedIn ? (
+                                <>
+                                    
+                                    <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`} onClick={handleLogout}><strong>Logout</strong></p>
+                                    </li>
+                                    <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                    <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`} onClick={() => handleOpenModal('signup')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Sign Up</strong></p>
+                                    </li>
+                                    <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`} onClick={() => handleOpenModal('login')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Log In</strong></p>
+                                    </li>
+                                </>
+                            )}
                             <li className="nav-item">
                                 <p className={`${styles.nav_items} nav-link`}><strong>Contact Us</strong></p>
-                            </li>
-                            <li className="nav-item">
-                                <p className={`${styles.nav_items} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p>
                             </li>
                         </ul>
                     </div>
@@ -93,3 +119,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
