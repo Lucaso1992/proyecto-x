@@ -10,6 +10,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     about_me = db.Column(db.String(300), unique=False, nullable=True)
+    profile_image_url = db.Column(db.String(255))
     password = db.Column(db.String(500), nullable=False)
     is_active = db.Column(db.Boolean(), nullable=True)
     posts = relationship('Post', backref='user', lazy=True)
@@ -25,6 +26,7 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "username": self.username,
+            'profile_image_url': self.profile_image_url,
             "about_me": self.about_me
         }
 

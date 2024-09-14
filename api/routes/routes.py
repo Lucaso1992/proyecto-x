@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from models.models import db, User, Follow, Comment, Post, Media
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import cloudinary
+import cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
@@ -58,29 +60,29 @@ def get_user(user_id):
     return jsonify(user.serialize())
 
 
-@api.route('/update_user/<int:user_id>', methods=['PUT'])
-def update_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-    data = request.json
-    username = data.get('username')
-    if username:
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user and existing_user.id != user_id:
-            return jsonify({"error": "Username already exists"}), 400
-        user.username = username
-    email = data.get('email')
-    if email:
-        existing_email = User.query.filter_by(email=email).first()
-        if existing_email and existing_email.id != user_id:
-            return jsonify({"error": "Email already exists"}), 400
-        user.email = email
-    about_me = data.get('about_me')
-    if about_me:
-        user.about_me = about_me
-    db.session.commit()
-    return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
+# @api.route('/update_user/<int:user_id>', methods=['PUT'])
+# def update_user(user_id):
+#     user = User.query.get(user_id)
+#     if not user:
+#         return jsonify({"error": "User not found"}), 404
+#     data = request.json
+#     username = data.get('username')
+#     if username:
+#         existing_user = User.query.filter_by(username=username).first()
+#         if existing_user and existing_user.id != user_id:
+#             return jsonify({"error": "Username already exists"}), 400
+#         user.username = username
+#     email = data.get('email')
+#     if email:
+#         existing_email = User.query.filter_by(email=email).first()
+#         if existing_email and existing_email.id != user_id:
+#             return jsonify({"error": "Email already exists"}), 400
+#         user.email = email
+#     about_me = data.get('about_me')
+#     if about_me:
+#         user.about_me = about_me
+#     db.session.commit()
+#     return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
 
 @api.route('/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
@@ -200,3 +202,38 @@ def crear_usuario():
             "msg": "usuario ya existe"
         }
         return jsonify(response_body), 400  
+
+@api.route('/update_user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    
+    if 'file' in request.files:
+        file_to_upload = request.files['file']
+        if file_to_upload:
+            upload = cloudinary.uploader.upload(file_to_upload)
+            user.profile_image_url = upload.get('url')
+
+    username = request.form.get('username')
+    if username:
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user and existing_user.id != user_id:
+            return jsonify({"error": "Username already exists"}), 400
+        user.username = username
+    
+    email = request.form.get('email')
+    if email:
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email and existing_email.id != user_id:
+            return jsonify({"error": "Email already exists"}), 400
+        user.email = email
+    
+    about_me = request.form.get('about_me')
+    if about_me:
+        user.about_me = about_me
+    
+    db.session.commit()
+    return jsonify({"message": "User updated successfully", "user": user.serialize()}), 200
+
+
