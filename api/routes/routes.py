@@ -3,6 +3,7 @@ from models.models import db, User, Follow, Comment, Post, Media
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import cloudinary
 import cloudinary.uploader
+from werkzeug.security import generate_password_hash, check_password_hash
 
 api = Blueprint('api', __name__)
 
@@ -16,7 +17,8 @@ def create_user():
     request_body = request.json
     user_query = User.query.filter_by(email=request_body['email']).first()
     if user_query is None:
-        create_user = User(username=request_body['username'], email=request_body['email'],  password=request_body['password'], is_active=request_body['is_active'])
+        hashed_password = generate_password_hash(request_body['password'], method='pbkdf2:sha256', salt_length=16)
+        create_user = User(username=request_body['username'], email=request_body['email'],  password=hashed_password, is_active=request_body['is_active'])
         db.session.add(create_user)
         db.session.commit()
         response_body = {
@@ -35,20 +37,14 @@ def login_user():
     request_body = request.json
     email = request_body.get('email')
     password = request_body.get('password')
-    user_login = User.query.filter_by(email=request_body['email']).first()
-    if user_login is None:
-        response_body = {
-            "msg": "User does not exist"
-        }
-        return jsonify(response_body), 404
-    elif password != user_login.password:
-        response_body = {
-            "msg": "Incorrect password"
-        }
-        return jsonify(response_body), 404
+
+    user_login = User.query.filter_by(email=email).first()
+
+    if user_login and check_password_hash(user_login.password, password):
+        access_token = create_access_token(identity=user_login.id)
+        return jsonify({"user_id": user_login.id, "token": access_token}), 200
     else:
-        access_token = create_access_token(identity= user_login.id)
-        return jsonify({ "user_id": user_login.id, "token": access_token}), 200
+        return jsonify({"msg": "Incorrect password or user not found"}), 404
 
 
 @api.route('/user/<int:user_id>', methods=['GET'])

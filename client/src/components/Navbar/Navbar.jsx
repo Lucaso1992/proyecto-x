@@ -49,21 +49,26 @@ const Navbar = () => {
                     <div className={styles.img_container} onClick={() => navigate("/")}>
                         <img className={styles.img} src={logo} alt="ShowApp" />
                     </div>
-                    
+
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav ms-auto">
+                        <ul className={`navbar-nav ms-auto ${styles.first_ul}`}>
                             {isLoggedIn ? (
                                 <>
-                                    
                                     <li className="nav-item">
-                                        <p className={`${styles.nav_items} nav-link`} onClick={handleLogout}><strong>Logout</strong></p>
+                                        <p className={`${styles.nav_items} nav-link`}><strong>Contact Us</strong></p>
                                     </li>
-                                    <li className="nav-item">
-                                        <p className={`${styles.nav_items} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p>
-                                    </li>
+                                    <div class={`dropdown d-flex align-items-center ${styles.dropdown_menu}`}>
+                                        <button class={`btn dropdown-toggle ${styles.icon_container}`} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                           <FaUserLarge className={styles.icon}/>
+                                        </button>
+                                        <ul class={`dropdown-menu dropdown-menu-end ${styles.ul}`}>
+                                            <li> <p className={`${styles.nav_items} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p></li>
+                                            <li><p className={`${styles.nav_items} nav-link`} onClick={handleLogout}><strong>Logout</strong></p></li>
+                                        </ul>
+                                    </div>
                                 </>
                             ) : (
                                 <>
@@ -73,11 +78,11 @@ const Navbar = () => {
                                     <li className="nav-item">
                                         <p className={`${styles.nav_items} nav-link`} onClick={() => handleOpenModal('login')} data-bs-toggle="modal" data-bs-target="#authModal"><strong>Log In</strong></p>
                                     </li>
+                                    <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`}><strong>Contact Us</strong></p>
+                                    </li>
                                 </>
                             )}
-                            <li className="nav-item">
-                                <p className={`${styles.nav_items} nav-link`}><strong>Contact Us</strong></p>
-                            </li>
                         </ul>
                     </div>
                 </div>

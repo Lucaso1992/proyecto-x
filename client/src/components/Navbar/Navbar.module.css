@@ -6,8 +6,6 @@
     font-family: "Paytone One", sans-serif;
     font-weight: 400;
     font-style: normal;
-    height: 80px;
-
 }
 
 .nav_items{
@@ -18,7 +16,9 @@
     font-size: 16px;
     transition: transform 0.4s ease;
     font-family: inherit;
+    margin-left: 15px;
 }
+
 
 ul{
     display: flex;
@@ -74,4 +74,59 @@ ul{
     background-color: #5191c3;
     border-color: #5191c3;
     transform: scale(1.05);
+}
+
+.icon_container{
+    background-color: #f8f8f0;
+    border: none;
+    color: #081c34;
+    transition: transform 0.4s ease;
+}
+
+.icon_container:hover{
+    background-color: #f8f8f0;
+    color: #5191c3;
+    transform: scale(1.05);
+}
+
+.icon{
+    color: #081c34;
+    font-size: 1.2rem;
+    transition: transform 0.4s ease;
+}
+.icon:hover{
+        color: #5191c3;
+        transform: scale(1.05);
+}
+.ul{
+    background-color: #5192c34a;
+}
+
+.dropdown_menu {
+    display: block;
+}
+
+
+@media (max-width: 768px) {
+    .icon_container {
+        display: none;
+    }
+
+    .ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; 
+        background-color: #f8f8f0;
+        border: none;
+    }
+    .nav_items {
+        display: block;
+        padding: 1rem 0;
+    }
+    .first_ul{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+    }
 }

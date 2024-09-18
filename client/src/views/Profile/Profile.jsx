@@ -86,7 +86,7 @@ const Profile = () => {
                 <div className="mb-3 d-flex flex-column align-items-center">
                     <label htmlFor="profileImage" className={`${styles.labels} form-label`}><strong>Profile Image</strong></label>
                     {userData?.profile_image_url ? <div className={styles.img_container}><img className={styles.img} src={userData.profile_image_url} alt="profile_img" /></div> : null}
-                    <input type="file" className="form-control mt-2" id="profileImage" onChange={handleImageChange} />  
+                    <input type="file" className="form-control mt-2 w-50" id="profileImage" onChange={handleImageChange} />  
                 </div>
 
                 <div className="mb-3 form-check d-flex justify-content-center gap-3 mt-4">
