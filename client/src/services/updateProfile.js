@@ -1,23 +1,15 @@
-const updateProfile = async (userId, username, email, aboutMe) => {
+const updateProfile = async (userId, formData) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const url = `${backendUrl}/api/update_user/${userId}`; 
     const token = localStorage.getItem('token'); 
 
-    const requestBody = {
-        id: userId,
-        username: username,
-        email: email,
-        about_me: aboutMe,
-    };
-    console.log(requestBody)
     try {
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}` 
             },
-            body: JSON.stringify(requestBody)
+            body: formData
         });
 
         const data = await response.json();
@@ -36,8 +28,3 @@ const updateProfile = async (userId, username, email, aboutMe) => {
 };
 
 export default updateProfile;
-
-
-
-
-

@@ -1,6 +1,5 @@
 .form_container{
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     height: 70vh;
     flex-direction: column;
@@ -37,6 +36,20 @@
 
 .checkbox{
     cursor: pointer;
+}
+
+.img_container{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 @media (min-width: 270px) and (max-width: 1024px) { 
