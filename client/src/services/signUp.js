@@ -33,3 +33,8 @@ const SignUp = (username, email, password) => {
   }
 
   export default SignUp;
+
+
+
+
+  

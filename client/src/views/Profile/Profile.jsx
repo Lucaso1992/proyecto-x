@@ -13,6 +13,7 @@ const Profile = () => {
     const [username, setUserName] = useState('');
     const [aboutMe, setAboutMe] = useState('');
     const [profileImage, setProfileImage] = useState(null); 
+    const [previewImage, setPreviewImage] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const id = localStorage.getItem('user_id');
@@ -22,6 +23,12 @@ const Profile = () => {
         const file = e.target.files[0];  
         if (file) {
             setProfileImage(file); 
+            
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -56,37 +63,46 @@ const Profile = () => {
             setUserName(userData.username);
             setEmail(userData.email);
             setAboutMe(userData.about_me);
-            setProfileImage(userData.profile_image_url)
-            console.log(userData)
+            setProfileImage(userData.profile_image_url);
         }
     }, [userData]);
     
-
     return (
         <div className={styles.form_container}>
             <h1 className={styles.title}>Profile Settings</h1>
             <form className={styles.form} onSubmit={handleSubmit}>
             
                 <div className="mb-3">
-                    <label htmlFor="username" className={`${styles.labels} form-label`} ><strong>User name</strong></label>
-                    <input  type="text" className="form-control" onChange={(e) => setUserName(e.target.value)}
-                        value={username} id="username" />
+                    <label htmlFor="username" className={`${styles.labels} form-label`}><strong>User name</strong></label>
+                    <input type="text" className="form-control" onChange={(e) => setUserName(e.target.value)} value={username} id="username" />
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className={`${styles.labels} form-label`}><strong>Email </strong></label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" onChange={(e) => setEmail(e.target.value)}
-                        value={email} aria-describedby="emailHelp" />
+                    <label htmlFor="exampleInputEmail1" className={`${styles.labels} form-label`}><strong>Email</strong></label>
+                    <input type="email" className="form-control" id="exampleInputEmail1" onChange={(e) => setEmail(e.target.value)} value={email} aria-describedby="emailHelp" />
                 </div>
 
                 <div className="mb-3">
                     <label htmlFor="aboutMe" className={`${styles.labels} form-label`}><strong>About Me</strong></label>
                     <textarea className="form-control" id="aboutMe" onChange={(e) => setAboutMe(e.target.value)} value={aboutMe} rows="3"></textarea>
                 </div>
+
                 <div className="mb-3 d-flex flex-column align-items-center">
                     <label htmlFor="profileImage" className={`${styles.labels} form-label`}><strong>Profile Image</strong></label>
-                    {userData?.profile_image_url ? <div className={styles.img_container}><img className={styles.img} src={userData.profile_image_url} alt="profile_img" /></div> : null}
-                    <input type="file" className="form-control mt-2 w-50" id="profileImage" onChange={handleImageChange} />  
+                    
+                    {previewImage ? (
+                        <div className={styles.img_container}>
+                            <img className={styles.img} src={previewImage} alt="profile_img_preview" />
+                        </div>
+                    ) : (
+                        userData?.profile_image_url && (
+                            <div className={styles.img_container}>
+                                <img className={styles.img} src={userData.profile_image_url} alt="profile_img" />
+                            </div>
+                        )
+                    )}
+
+                    <input type="file" className="form-control mt-2 w-50" id="profileImage" onChange={handleImageChange} />
                 </div>
 
                 <div className="mb-3 form-check d-flex justify-content-center gap-3 mt-4">

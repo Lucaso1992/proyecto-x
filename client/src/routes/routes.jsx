@@ -1,6 +1,6 @@
 import Home from "../views/Home/Home.jsx";
 import Profile from "../views/Profile/Profile.jsx";
-import RatingSystem from "../views/Rating.jsx";
+import MyPosts from "../views/MyPosts/MyPosts.jsx";
 
 const routes = [
     {
@@ -12,9 +12,9 @@ const routes = [
         element: <Profile/>
     },
     {
-        path: '/rating',
-        element: <RatingSystem />
-    }
+        path: '/my-posts',
+        element: <MyPosts/>
+    },
    
 ]
 

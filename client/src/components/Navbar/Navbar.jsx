@@ -15,6 +15,7 @@ const Navbar = () => {
     const [password, setPassword] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    const user_name = localStorage.getItem("username");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,19 +55,26 @@ const Navbar = () => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className={`navbar-nav ms-auto ${styles.first_ul}`}>
+                        <ul className={`navbar-nav ms-auto d-flex align-items-center ${styles.first_ul}`}>
                             {isLoggedIn ? (
                                 <>
                                     <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`} onClick={() => navigate('/')} ><strong>Home</strong></p>
+                                    </li>
+                                    <li className="nav-item">
+                                        <p className={`${styles.nav_items} nav-link`} onClick={() => navigate('/my-posts')} ><strong>My Posts</strong></p>
+                                    </li>
+                                    <li className="nav-item">
                                         <p className={`${styles.nav_items} nav-link`}><strong>Contact Us</strong></p>
                                     </li>
-                                    <div class={`dropdown d-flex align-items-center ${styles.dropdown_menu}`}>
-                                        <button class={`btn dropdown-toggle ${styles.icon_container}`} type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                           <FaUserLarge className={styles.icon}/>
+                                    <div className={`dropdown d-flex align-items-center ${styles.dropdown_menu}`}>
+                                        <button className={`btn dropdown-toggle d-flex align-items-center ${styles.icon_container}`} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <p className={styles.user_name}>{user_name}</p>
+                                            {/* <FaUserLarge className={styles.icon}/> */}
                                         </button>
-                                        <ul class={`dropdown-menu dropdown-menu-end ${styles.ul}`}>
-                                            <li> <p className={`${styles.nav_items} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p></li>
-                                            <li><p className={`${styles.nav_items} nav-link`} onClick={handleLogout}><strong>Logout</strong></p></li>
+                                        <ul className={`dropdown-menu dropdown-menu-end ${styles.ul}`}>
+                                            <li> <p className={`${styles.nav_itemss} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p></li>
+                                            <li><p className={`${styles.nav_itemss} nav-link`} onClick={handleLogout}><strong>Logout</strong></p></li>
                                         </ul>
                                     </div>
                                 </>

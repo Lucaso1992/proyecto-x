@@ -100,3 +100,4 @@ class Media(db.Model):
             "url": self.url,
             "post_id": self.post_id
         }
+

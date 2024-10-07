@@ -21,7 +21,8 @@ const LogIn = (email, password) => {
       })
       .then(data => {
         localStorage.setItem('token', data.token)
-        localStorage.setItem('user_id', data.user_id)
+        localStorage.setItem('user_id', data.user.id)
+        localStorage.setItem('username', data.user.username)
         window.location.reload();
         alert('Logged in correctly!')
       })
@@ -31,3 +32,4 @@ const LogIn = (email, password) => {
   }
 
   export default LogIn;
+

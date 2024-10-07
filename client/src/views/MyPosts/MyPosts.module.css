@@ -1,0 +1,78 @@
+.posts_container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.title{
+    font-size: 3rem;
+    color: #081c34;
+    text-align: center;
+    font-family: "Paytone One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.icons{
+    font-size: 2.5rem;
+    color: #081c34;
+    transition: transform 0.4s ease;
+}
+
+.icons:hover{
+    transform: scale(1.05);
+    color: #5191c3;
+}
+
+.button{
+    background-color: #081c34;
+    color: #f8f8f0;
+    width: 6rem;
+    margin: 0 auto;
+    transition: transform 0.4s ease;
+}
+
+.button:hover{
+    transform: scale(1.05);
+    background-color: #5191c3;
+    color: #f8f8f0;
+}
+
+.img_container{
+    width: 10rem;
+    height: 10rem;
+    margin: 0 auto;
+}
+
+.loaded_img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.load_info_container{
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; 
+    border-top: 8px solid #3498db; 
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto; 
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
