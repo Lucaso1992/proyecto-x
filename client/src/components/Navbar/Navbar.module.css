@@ -1,6 +1,5 @@
 .navbar{
     background-color: #f8f8f0;
-    /* border-bottom: 2px solid #081c34; */
     box-shadow: 0 0 5px #f8f8f0;
     padding: 0 1rem;
     font-family: "Paytone One", sans-serif;
@@ -8,10 +7,20 @@
     font-style: normal;
 }
 
-.nav_items, .nav_itemss, .user_name{
+.nav_items, .user_name{
     color: #081c34;
     margin-bottom: 0;
     padding: 1rem 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.4s ease;
+    font-family: inherit;
+    text-align: center;
+}
+
+.nav_itemss{
+    color: #081c34;
+    margin-bottom: 0;
     cursor: pointer;
     font-size: 16px;
     transition: transform 0.4s ease;
@@ -40,7 +49,7 @@ ul{
     transform: scale(1.05);
 }
 
-.img_container{
+.logo_container{
     height: 70px;
     transition: transform 0.4s ease;
     cursor: pointer;
@@ -52,7 +61,7 @@ ul{
     object-fit: cover;
 }
 
-.img_container:hover{
+.logo_container:hover{
     transform: scale(1.05);
 }
 
@@ -90,6 +99,7 @@ ul{
     border: none;
     color: #081c34;
     transition: transform 0.4s ease;
+    padding: 0;
 }
 
 .icon_container:hover{
@@ -109,12 +119,26 @@ ul{
 }
 .ul{
     background-color: #5192c34a;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.203);
 }
 
 .dropdown_menu {
     display: block;
+    
 }
 
+.img_container{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: .2rem;
+}
+
+.user_img{
+    width: 100%;
+    object-fit: contain;
+}
 
 @media (max-width: 768px) {
     .user_name, .icon_container {
@@ -129,6 +153,8 @@ ul{
         gap: 1rem; 
         background-color: #f8f8f0;
         border: none;
+        box-shadow: none;
+        margin-top: 0;
     }
     .nav_items {
         display: block;
@@ -139,12 +165,5 @@ ul{
         flex-direction: column;
         justify-content: center;
         gap: 0;
-    }
-}
-
-
-@media (min-width: 768px) { 
-    .nav_itemss{
-        margin-left: 15px;
     }
 }

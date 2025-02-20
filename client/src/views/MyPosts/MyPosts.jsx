@@ -13,7 +13,7 @@ const MyPosts = () => {
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showCreatePost, setShowCreatePost] = useState(false); 
-    const userId = localStorage.getItem('user_id');
+    const userId = sessionStorage.getItem('user_id');
 
     const fetchUserPosts = async () => {
         setLoading(true); 

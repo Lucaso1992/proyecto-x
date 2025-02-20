@@ -1,6 +1,10 @@
 import styles from "./Post.module.css";
 
 const Post = ({ img, text }) => {
+
+
+    
+
     return (
         <div class={`card ${styles.post_container}`}>
             <div className={styles.img_container}>

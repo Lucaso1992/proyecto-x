@@ -1,7 +1,7 @@
 const updateProfile = async (userId, formData) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const url = `${backendUrl}/api/update_user/${userId}`; 
-    const token = localStorage.getItem('token'); 
+    const token = sessionStorage.getItem('token'); 
 
     try {
         const response = await fetch(url, {

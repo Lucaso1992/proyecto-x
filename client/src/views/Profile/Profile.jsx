@@ -16,7 +16,7 @@ const Profile = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const id = localStorage.getItem('user_id');
+    const id = sessionStorage.getItem('user_id');
     const navigate = useNavigate();
 
     const handleImageChange = (e) => {
@@ -45,6 +45,7 @@ const Profile = () => {
         try {
             const response = await updateProfile(id, formData); 
             if (response) {
+                actions.setChange((prev) => !prev)
                 navigate("/"); 
             } else {
                 console.error("Error updating profile");
@@ -55,15 +56,11 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        getUserProfile(id, setUserData)
-    }, [id]);
-
-    useEffect(() => {
-        if (userData) {
-            setUserName(userData.username);
-            setEmail(userData.email);
-            setAboutMe(userData.about_me);
-            setProfileImage(userData.profile_image_url);
+        if (store.userData) {
+            setUserName(store.userData.username);
+            setEmail(store.userData.email);
+            setAboutMe(store.userData.about_me);
+            setProfileImage(store.userData.profile_image_url);
         }
     }, [userData]);
     
@@ -117,4 +114,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

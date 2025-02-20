@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import useAppContext from "../../store/AppContext";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/show.png";
 import SignUp from "../../services/signUp";
 import LogIn from "../../services/login";
 import { FaUserLarge } from "react-icons/fa6";
@@ -15,11 +15,11 @@ const Navbar = () => {
     const [password, setPassword] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const user_name = localStorage.getItem("username");
+    const user_name = sessionStorage.getItem("username");
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         setIsLoggedIn(!!token);
     }, []);
 
@@ -27,18 +27,25 @@ const Navbar = () => {
         setModalType(type);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (modalType === 'signup') {
-            SignUp(username, email, password);
+            await SignUp(username, email, password);
         } else if (modalType === 'login') {
-            LogIn(email, password);
+            const loginSuccess = await LogIn(email, password);
+            if (loginSuccess) {
+                const modalElement = document.getElementById('authModal');
+                const modalInstance = window.bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide(); 
+                }
+            }
         }
     };
-
+    
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_id');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user_id');
         setIsLoggedIn(false);
         navigate("/");
     };
@@ -47,7 +54,7 @@ const Navbar = () => {
         <>
             <nav className={`${styles.navbar} navbar navbar-expand-lg`}>
                 <div className="container-fluid">
-                    <div className={styles.img_container} onClick={() => navigate("/")}>
+                    <div className={styles.logo_container} onClick={() => navigate("/")}>
                         <img className={styles.img} src={logo} alt="ShowApp" />
                     </div>
 
@@ -69,8 +76,13 @@ const Navbar = () => {
                                     </li>
                                     <div className={`dropdown d-flex align-items-center ${styles.dropdown_menu}`}>
                                         <button className={`btn dropdown-toggle d-flex align-items-center ${styles.icon_container}`} type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <p className={styles.user_name}>{user_name}</p>
-                                            {/* <FaUserLarge className={styles.icon}/> */}
+                                            {/* <p className={styles.user_name}>{user_name}</p> */}
+                                            {store.userData?.profile_image_url ? <div className={styles.img_container}>
+                                                <img className={styles.user_img} src={store.userData?.profile_image_url} alt="" />
+                                            </div> : <FaUserLarge/>}
+                                            {/* <div className={styles.img_container}>
+                                                <img className={styles.user_img} src={store.userData?.profile_image_url} alt="" />
+                                            </div> */}
                                         </button>
                                         <ul className={`dropdown-menu dropdown-menu-end ${styles.ul}`}>
                                             <li> <p className={`${styles.nav_itemss} nav-link`} onClick={() => navigate("/profile")} ><strong>Profile</strong></p></li>

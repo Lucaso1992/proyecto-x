@@ -9,7 +9,7 @@ const createPost = async (commentText, imageFile) => {
         const response = await fetch(backendUrl + 'api/create_post', {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`, 
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`, 
             },
             body: formData
         });
