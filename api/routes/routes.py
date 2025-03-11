@@ -133,26 +133,6 @@ def get_following(user_id):
 
     return jsonify({"following": following_list}), 200
 
-
-# @api.route('/signup', methods=['POST'])
-# def crear_usuario():
-#     request_body = request.json
-#     user_query = User.query.filter_by(email=request_body["email"]).first()
-    
-#     if user_query is None:
-#         nuevo_usuario = User(email=request_body["email"], password=request_body["password"], is_active=request_body["is_active"])
-#         db.session.add(nuevo_usuario)
-#         db.session.commit()
-#         response_body = {
-#             "msg": "usuario creado con exito"
-#         }
-#         return jsonify(response_body), 200
-#     else:
-#         response_body = {
-#             "msg": "usuario ya existe"
-#         }
-#         return jsonify(response_body), 400  
-
 @api.route('/update_user/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     user = User.query.get(user_id)

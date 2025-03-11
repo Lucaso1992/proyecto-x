@@ -9,6 +9,8 @@ export const AppProvider = ({ children }) => {
   const [change, setChange] = useState(false);
   const id = sessionStorage.getItem('user_id');
 
+  //hola//
+
   useEffect(() => {
     getUserProfile(id, setUserData)
   }, [id, change]
